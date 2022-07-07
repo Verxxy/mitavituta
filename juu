@@ -1,0 +1,92 @@
+
+
+local ScreenGui = Instance.new("ScreenGui")
+local main = Instance.new("Frame")
+local label = Instance.new("TextLabel")
+local cashaura = Instance.new("TextButton")
+local autadrop = Instance.new("TextButton")
+
+--Properties:
+
+ScreenGui.Parent = game.CoreGui
+
+main.Name = "main"
+main.Parent = ScreenGui
+main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+main.Position = UDim2.new(0.685630918, 0, 0.414427161, 0)
+main.Size = UDim2.new(0, 290, 0, 288)
+main.Active = true
+main.Draggable = true
+
+label.Name = "label"
+label.Parent = main
+label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+label.BorderColor3 = Color3.fromRGB(30, 30, 30)
+label.Size = UDim2.new(0, 290, 0, 50)
+label.Font = Enum.Font.SciFi
+label.Text = "TT's GUI | By tossaja"
+label.TextColor3 = Color3.fromRGB(0, 0, 0)
+label.TextSize = 22.000
+
+cashaura.Name = "cashaura"
+cashaura.Parent = main
+cashaura.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+cashaura.BorderColor3 = Color3.fromRGB(30, 30, 30)
+cashaura.Position = UDim2.new(0.0620689616, 0, 0.215277791, 0)
+cashaura.Size = UDim2.new(0, 107, 0, 50)
+cashaura.Font = Enum.Font.SourceSans
+cashaura.Text = "Cashaura"
+cashaura.TextColor3 = Color3.fromRGB(0, 0, 0)
+cashaura.TextSize = 28.000
+cashaura.TextWrapped = true
+cashaura.MouseButton1Down:Connect(function()
+	local Loop
+	local loopFunction = function()
+		for i,v in pairs(game:GetService('Workspace')['Ignored']['Drop']:GetChildren()) do
+			if v:IsA('Part') then
+				if (v.Position - player.Character.HumanoidRootPart.Position).Magnitude <= 12 then
+					fireclickdetector(v:FindFirstChild('ClickDetector'))
+				end
+			end
+		end
+	end;
+	local Start = function()
+		Loop = game:GetService("RunService").Heartbeat:Connect(loopFunction);
+	end;
+	local Pause = function()
+		Loop:Disconnect()
+	end;
+end)
+
+autodrop.Name = "autodrop"
+autodrop.Parent = main
+autodrop.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+autodrop.BorderColor3 = Color3.fromRGB(30, 30, 30)
+autodrop.Position = UDim2.new(0.541379333, 0, 0.215277776, 0)
+autodrop.Size = UDim2.new(0, 111, 0, 50)
+autodrop.Font = Enum.Font.SourceSans
+autodrop.Text = "Autodrop"
+autodrop.TextColor3 = Color3.fromRGB(0, 0, 0)
+autodrop.TextSize = 30.000
+autodrop.MouseButton1Down:Connect(function()
+	local Loop
+	local loopFunction = function()
+		local DropAm = 10000
+		if player.DataFolder.Currency.Value > 10000 then
+			DropAm = '10000'
+		else
+			DropAm = tostring(player.DataFolder.Currency.Value)
+		end
+		local args = {
+			'DropMoney',
+			DropAm
+		}
+		MainEvent:FireServer(unpack(args))
+	end;
+	local Start = function()
+		Loop = game:GetService("RunService").Heartbeat:Connect(loopFunction);
+	end;
+	local Pause = function()
+		Loop:Disconnect()
+	end;
+end)
