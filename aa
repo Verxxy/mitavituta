@@ -1,0 +1,145 @@
+
+
+local ScreenGui = Instance.new("ScreenGui")
+local main = Instance.new("Frame")
+local label = Instance.new("TextLabel")
+local CashAura = Instance.new("TextButton")
+local CashAuraColor = Instance.new("TextLabel")
+local AutoDrop = Instance.new("TextButton")
+local AutoDropColor = Instance.new("TextLabel")
+
+--Properties:
+
+ScreenGui.Parent = game.CoreGui
+
+main.Name = "main"
+main.Parent = ScreenGui
+main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+main.Position = UDim2.new(0.685630918, 0, 0.414427161, 0)
+main.Size = UDim2.new(0, 290, 0, 288)
+main.Active = true
+main.Draggable = true
+
+label.Name = "label"
+label.Parent = main
+label.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+label.BorderColor3 = Color3.fromRGB(30, 30, 30)
+label.Size = UDim2.new(0, 290, 0, 50)
+label.Font = Enum.Font.SciFi
+label.Text = "TT's GUI | By tossaja"
+label.TextColor3 = Color3.fromRGB(0, 0, 0)
+label.TextSize = 22.000
+
+CashAura.Name = "CashAura"
+CashAura.Parent = TogglesFrame
+CashAura.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+CashAura.BorderSizePixel = 0
+CashAura.Position = UDim2.new(0.681183517, 0, 0.0399999991, 0)
+CashAura.Size = UDim2.new(0, 94, 0, 46)
+CashAura.Font = Enum.Font.GothamBlack
+CashAura.Text = "Cash Aura"
+CashAura.TextColor3 = Color3.fromRGB(255, 255, 255)
+CashAura.TextSize = 14.000
+
+CashAuraColor.Name = "CashAuraColor"
+CashAuraColor.Parent = CashAura
+CashAuraColor.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+CashAuraColor.BorderSizePixel = 0
+CashAuraColor.Size = UDim2.new(0, 93, 0, 5)
+CashAuraColor.Font = Enum.Font.SourceSans
+CashAuraColor.Text = ""
+CashAuraColor.TextColor3 = Color3.fromRGB(255, 0, 0)
+CashAuraColor.TextSize = 14.000
+
+
+AutoDrop.Name = "AutoDrop"
+AutoDrop.Parent = TogglesFrame
+AutoDrop.BackgroundColor3 = Color3.fromRGB(10, 10, 10)
+AutoDrop.BorderSizePixel = 0
+AutoDrop.Position = UDim2.new(0.541379333, 0, 0.215277776, 0)
+AutoDrop.Size = UDim2.new(0, 111, 0, 50)
+AutoDrop.Font = Enum.Font.GothamBlack
+AutoDrop.Text = "Auto Drop"
+AutoDrop.TextColor3 = Color3.fromRGB(255, 255, 255)
+AutoDrop.TextSize = 14.000
+
+AutoDropColor.Name = "AutoDropColor"
+AutoDropColor.Parent = AutoDrop
+AutoDropColor.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+AutoDropColor.BorderSizePixel = 0
+AutoDropColor.Size = UDim2.new(0, 111, 0, 50)
+AutoDropColor.Font = Enum.Font.SourceSans
+AutoDropColor.Text = ""
+AutoDropColor.TextColor3 = Color3.fromRGB(255, 0, 0)
+AutoDropColor.TextSize = 14.000
+
+
+AutoDropColor.BackgroundColor3 = red
+AutoDrop.MouseButton1Click:Connect(function()
+    if AutoDropColor.BackgroundColor3 == red then
+        AutoDropColor.BackgroundColor3 = green
+        local Loop
+        local loopFunction = function()
+            local DropAm = 10000
+            if player.DataFolder.Currency.Value > 10000 then
+                DropAm = '10000'
+            else
+                DropAm = tostring(player.DataFolder.Currency.Value)
+            end
+            local args = {
+                'DropMoney',
+                DropAm
+            }
+            MainEvent:FireServer(unpack(args))
+        end;
+        local Start = function()
+            Loop = game:GetService("RunService").Heartbeat:Connect(loopFunction);
+        end;
+        local Pause = function()
+            Loop:Disconnect()
+        end;
+        Start()	
+        repeat wait() until AutoDropColor.BackgroundColor3 == red
+        Pause()
+    else
+        AutoDropColor.BackgroundColor3 = red
+    end
+end)
+
+
+CashAuraColor.BackgroundColor3 = red
+CashAura.MouseButton1Click:Connect(function()
+    if CashAuraColor.BackgroundColor3 == red then
+        CashAuraColor.BackgroundColor3 = green
+        local Loop
+        local loopFunction = function()
+            for i,v in pairs(game:GetService('Workspace')['Ignored']['Drop']:GetChildren()) do
+                if v:IsA('Part') then
+                    if (v.Position - player.Character.HumanoidRootPart.Position).Magnitude <= 12 then
+                        fireclickdetector(v:FindFirstChild('ClickDetector'))
+                    end
+                end
+            end
+        end;
+        local Start = function()
+            Loop = game:GetService("RunService").Heartbeat:Connect(loopFunction);
+        end;
+        local Pause = function()
+            Loop:Disconnect()
+        end;
+        Start()	
+        repeat wait() until CashAuraColor.BackgroundColor3 == red
+        Pause()
+    else
+        CashAuraColor.BackgroundColor3 = red
+    end
+end)
+
+HideBlockColor.BackgroundColor3 = red
+HideBlock.MouseButton1Click:Connect(function()
+    if HideBlockColor.BackgroundColor3 == red then
+        HideBlockColor.BackgroundColor3 = green
+    else
+        HideBlockColor.BackgroundColor3 = red
+    end
+end)
